@@ -2,3 +2,4 @@
 *.db
 *.csv
 __pycache__/
+uncpaths.txt
