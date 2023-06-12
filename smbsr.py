@@ -33,7 +33,7 @@ class SMBSR(object):
         try:
             # os.rename(file_object.name, file_object.name + ".docx")
             text = textract.process(file_object.name)
-
+            logger.debug("hello " + file_object.name)
             return text
         except Exception as e:
             os.remove(file_object.name)
@@ -168,8 +168,13 @@ class SMBSR(object):
                     f"[{self.workername}] | Found interesting file named " + filename)
                 self.db.insertFileFinding(filename, self.share, self.ip, self.retrieveTimes(
                     filename), self.options.tag)
-
-            filesize = os.path.getsize(filename)
+            # here probably the start of the try/catch
+            try:
+                filesize = os.path.getsize(filename)
+            except Exception as e:
+                logger.error(
+                    f"[{self.workername}] | Error while retrieving the file size, skipping")
+                return
 
             if filesize > self.options.max_size:
                 logger.debug(f"[{self.workername}] | Skipping file " +
@@ -197,7 +202,12 @@ class SMBSR(object):
 
                 else:
                     file_obj.seek(0)
-                    lines = file_obj.readlines()
+                    try:
+                        lines = file_obj.readlines()
+                    except Exception as e:
+                        logger.error(f"[{self.workername}] | Encountered exception while reading file: " +
+                                     filename + " with extension " + file_ext + " | Exception: " + str(e))
+                        return
                     # need to work on the lines here bcs the strip with bytes does not work apparently
 
                 if len(lines) > 0 and lines != "textractfailed":
@@ -212,7 +222,7 @@ class SMBSR(object):
                                         f"[{self.workername}] | Reached max hits for " + filename)
                                     break
                         except Exception as e:
-                            logger.error(f"[{self.workername}] | Encountered exception while reading file: " +
+                            logger.error(f"[{self.workername}] | Encountered exception while analyzing file line: " +
                                          filename + " with extension " + file_ext + " | Exception: " + str(e))
                             break
         file_obj.close()
