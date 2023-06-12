@@ -221,6 +221,7 @@ class DatabaseSMBSR:
 
     def insertFileFinding(self, filename, share, ip, times, tag):
         now = datetime.now()
+        filename = '/'.join(filename.split('/')[3:])
         date = now.strftime("%d-%m-%Y")
         clickable = ("\\\\" + ip + "\\" + share +
                      "\\" + filename).replace('/', '\\')
