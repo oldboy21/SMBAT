@@ -225,4 +225,4 @@ class SMBSR(object):
                             logger.error(f"[{self.workername}] | Encountered exception while analyzing file line: " +
                                          filename + " with extension " + file_ext + " | Exception: " + str(e))
                             break
-        file_obj.close()
+                    file_obj.close()
