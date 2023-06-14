@@ -28,7 +28,7 @@ class rsmicore(object):
 
     def runSMBSRbrain(self, file):
 
-        logger.info(f"[{self.workername}] | Working on file: " + file)
+        logger.debug(f"[{self.workername}] | Working on file: " + file)
         # (self, workername, options, db):
         smbsrunner = SMBSR(self.workername, self.options, self.db["SMBSR"], file, list(
             self.targetobj.values())[0], list(self.targetobj.keys())[0], self.options.tag)
