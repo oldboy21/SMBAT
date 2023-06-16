@@ -3,8 +3,8 @@ SMBAT merges the features implemented for SMBSR (find secrets in shares) and RSM
 USing the **-mode** parameter it is possible to run SMBAT as SMBSR,RSMBI or as full power SMBSR/RSMBI. 
 As its "parents", this tool works in two phases: 
 
-* Enumeration: basing on the target (CIDR, Computer Objects from AD, IP list, ...), SMBAT uses the provided credentials to enumerate the available shares and build a dictionary of target (server:list(shares)). For this pysmb library is used
-* Action: Basing on the **-mode** parameter SMBAT starts to its main duties, during this phases the SMB shares are mounted in a temp folder and accessed "locally", finally those are unmounted and deleted. 
+* **Enumeration**: basing on the target (CIDR, Computer Objects from AD, IP list, ...), SMBAT uses the provided credentials to enumerate the available shares and build a dictionary of target (server:list(shares)). For this pysmb library is used
+* **Action**: Basing on the **-mode** parameter SMBAT starts to its main duties, during this phases the SMB shares are mounted in a temp folder and accessed "locally", finally those are unmounted and deleted. 
 
 Results are saved in a sqlite database but also exported in CSV. 
 
@@ -59,6 +59,41 @@ And also another table for the interesting file list containing the following co
 * Last Time Found Date
 * runTag of the session
 * Clickable finding to manually check the result
+
+### File Supported
+
+SMBSR learned how to read: 
+
+* .csv via python builtins
+* .doc via antiword
+* .docx via python-docx2txt
+* .eml via python builtins
+* .epub via ebooklib
+* .gif via tesseract-ocr
+* .jpg and .jpeg via tesseract-ocr
+* .json via python builtins
+* .html and .htm via beautifulsoup4
+* .mp3 via sox, SpeechRecognition, and pocketsphinx
+* .msg via msg-extractor
+* .odt via python builtins
+* .ogg via sox, SpeechRecognition, and pocketsphinx
+* .pdf via pdftotext (default) or pdfminer* .six
+* .png via tesseract-ocr
+* .pptx via python-pptx
+* .ps via ps2text
+* .rtf via unrtf
+* .tiff and .tif via tesseract-ocr
+* .txt via python builtins
+* .wav via SpeechRecognition and pocketsphinx
+* .xlsx via xlrd
+* .xls via xlrd
+
+### reg_gen.py
+
+As the last update SMBSR has been granted with the power of looking for secrets that match a given regular expression (see regulars.txt file containing some good examples to
+to match). Given this new super power i have also implemented a new script which given a wordlist it generates a list of regular expression which match the password patterns
+it found into the wordlist. Before printing out everything the list of regular expression is (sort -u)-ed. The script can be optimized in case the pattern presents for example 
+two or more ascii_lower in a row, but it's not like that now. 
 
 
 ## RSMBI Brain 
