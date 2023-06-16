@@ -1,10 +1,10 @@
 # SMBAT - Finally the AIO SMB Tool
 SMBAT merges the features implemented for SMBSR (find secrets in shares) and RSMBI (assess the RW permission that a user has among all the target shares). 
-USing the **-mode** parameter it is possible to run SMBAT as SMBSR,RSMBI or as full power SMBSR/RSMBI. 
+Using the **-mode** parameter it is possible to run SMBAT as SMBSR,RSMBI or as full power SMBSR/RSMBI. 
 As its "parents", this tool works in two phases: 
 
 * **Enumeration**: basing on the target (CIDR, Computer Objects from AD, IP list, ...), SMBAT uses the provided credentials to enumerate the available shares and build a dictionary of target (server:list(shares)). For this pysmb library is used
-* **Action**: Basing on the **-mode** parameter SMBAT starts to its main duties, during this phases the SMB shares are mounted in a temp folder and accessed "locally", finally those are unmounted and deleted. 
+* **Action**: Basing on the **-mode** parameter SMBAT starts to carry out its main duties, during this phases the SMB shares are mounted in a temp folder and accessed "locally", finally those are unmounted and deleted. 
 
 Results are saved in a sqlite database but also exported in CSV. 
 
@@ -125,7 +125,7 @@ domain=ciao.grande
 For instance from the project folder:
 
 ```bash
-sudo python3 rsmbi.py -username $username -password $password -domain ciaogrande.local -smbcreds /tmp/smbcreds -csv -debug  -mode both -wordlist keywords.txt -uncpaths uncpaths.txt -file-interesting ppk,kdbx,pfx -multithread -T 30
+sudo python3 smbat.py -username $username -password $password -domain ciaogrande.local -smbcreds /tmp/smbcreds -csv -debug  -mode both -wordlist keywords.txt -uncpaths uncpaths.txt -file-interesting ppk,kdbx,pfx -multithread -T 30
 
 ```
 
@@ -181,5 +181,5 @@ optional arguments:
 
 # Credits 
 
-* Everyone who is going to help out finding issues and improving 
+* Everyone who is going to help out finding issues and improving the tool
 * [Retrospected](https://github.com/Retrospected): For helping out every Friday with debugging the code and brainstorming on new features
