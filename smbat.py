@@ -313,7 +313,7 @@ if __name__ == '__main__':
     if not os.geteuid() == 0:
         sys.exit("\nOnly root can run this script\n")
     parser = argparse.ArgumentParser(
-        add_help=True, description="Ransomware Impact Checker")
+        add_help=True, description="SMB @udit Tool")
     parser.add_argument('-username', action='store', default='anonymous',
                         type=str, help='Username for authenticated scan')
     parser.add_argument('-password', action='store', default='s3cret',
