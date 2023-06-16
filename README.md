@@ -95,10 +95,41 @@ to match). Given this new super power i have also implemented a new script which
 it found into the wordlist. Before printing out everything the list of regular expression is (sort -u)-ed. The script can be optimized in case the pattern presents for example 
 two or more ascii_lower in a row, but it's not like that now. 
 
-
 ## RSMBI Brain 
 
+RSMBI is a python tool that answers to the question: What are the writable shares in this big domain? 
+RSMBI connect to each target and it mounts the available shares in the /tmp folder (but that can also be changed). Once the shares are successfully mounted, the threads (or the 
+solo one) would start (os.)walking recursively all the folders, trying get a file handle with writing rights. If the handle is obtained successfully the UNC path of that file
+is saved within the database (this time also in a clickable format). Once a share is fully analyzed, the folder is unmounted (gracefully or lazily).
+Results are saved in a sqlite database and also exported in a nice CSV.  
+
+Accepted input targets are: 
+
+* UNC patchs
+* CIDR
+* IP address(es)
+* Computer Objects from LDAP, RSMBI retrieves that for you
+
+The -username and -password passed via the command line are used by RSMBI to enumerate shares using pysmb and for retrieving the list of computer objects from Active Directory
+via LDAP protocol. 
+The content of the smbcreds file (needed for the mount) must be as following: 
+
+```
+username=ob
+password=ciaogrande
+domain=ciao.grande
+```
+
 ## Usage 
+
+For instance from the project folder:
+
+```bash
+sudo python3 rsmbi.py -username $username -password $password -domain ciaogrande.local -smbcreds /tmp/smbcreds -csv -debug  -mode both -wordlist keywords.txt -uncpaths uncpaths.txt -file-interesting ppk,kdbx,pfx -multithread -T 30
+
+```
+
+Help message also contains some guidelines: 
 
 ```text
 usage: smbat.py [-h] [-username USERNAME] [-password PASSWORD] [-domain DOMAIN] [-fake-hostname FAKE_HOSTNAME] [-multithread] [-logfile LOGFILE] [-dbfile DBFILE]
@@ -147,3 +178,8 @@ optional arguments:
                         File containing regex expression to match [SMBSR]
 
 ```
+
+# Credits 
+
+* Everyone who is going to help out finding issues and improving 
+* [Retrospected](https://github.com/Retrospected): For helping out every Friday with debugging the code and brainstorming on new features
